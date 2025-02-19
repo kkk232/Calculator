@@ -34,7 +34,7 @@
             </div>
             <div class="ravno">
                 <button id="btnFin">=</button>
-                <button id="clear">clear</button>
+                <button id="clear" onclick="clear()">clear</button>
                 <button id="delete">delete</button>
             </div>
         </div>
@@ -46,15 +46,22 @@
             const btnMin = document.querySelector("#btnMin");
             const btnFin = document.querySelector("#btnFin");
             const btnDel = document.querySelector("#delete");
-            const btnClear = document.querySelector("#clear");
+
+            function clear(){
+                string = "";
+                content.textContent = string;
+                container.appendChild(content);
+            }
 
             function addDigit(a){
+                if (string[0] == " ") string = "";
                 string += a;
                 content.textContent = string;
                 container.appendChild(content);
             }
 
             function addDot(){
+                if (string[0] == " ") string = "";
                 let str = string.split(" ");
                 if ((str.length > 2 && str[2].includes(".")) || (str.length < 2 && str[0].includes(".")))
                 {
@@ -68,6 +75,7 @@
                 }
             }
             function addOperators(a){
+                if (string[0] == " ") string = string.trimStart();
                 if (string.length != 0 && string[string.length - 1] != "-" && string.includes(" ") == false){
                     a == 0 ? string += " + ": a == 1 ? string += " / ": string += " * "
                     content.textContent = string;
@@ -76,6 +84,7 @@
             }
             
             btnMin.addEventListener("click", () => {
+                if (string[0] == " ") string = string.trimStart();
                 if(string.length == 0 || (string.includes(" ") && string[string.length - 1] == " ")){
                     string += "-";
                     content.textContent = string;
@@ -92,16 +101,31 @@
                 }
             });
             btnFin.addEventListener("click", () => {
+                let a = 0;
                 if (string.includes(" ") && (string[string.length - 1] != " " || string[string.length - 1] != "-")){
                     str = string.split(" ");
-                    str[1] == "+" ? string += ` = ${+str[0] + +str[2]}`: 
-                    str[1] == "-" ? string += ` = ${+str[0] - +str[2]}`: 
-                    str[1] == "/" ? string += ` = ${+str[0] / +str[2]}`: 
-                    str[1] == "*" ? string += ` = ${+str[0] * +str[2]}`: string = "Mistake, please write again"
+                    switch (str[1]){
+                        case "+":
+                            a = +str[0] + +str[2];
+                            string += ` = ${a}`;
+                            break;
+                        case "-":
+                            a = +str[0] - +str[2];
+                            string += ` = ${a}`;
+                            break;
+                        case "/":
+                            a = +str[0] / +str[2];
+                            string += ` = ${a}`;
+                            break;
+                        case "*":
+                            a = +str[0] * +str[2];
+                            string += ` = ${a}`;
+                            break;
+                    }
                 }
                 content.textContent = string;
                 container.appendChild(content);
-                string = "";
+                string = ` ${a}`;
             });
         </script>
         
