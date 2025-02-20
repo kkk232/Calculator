@@ -96,16 +96,3 @@ btnFin.addEventListener("click", () => {
     
 });
 
-document.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-        btnFin.dispatchEvent(new Event("click"));
-        return;
-    };
-    const buttons = document.querySelectorAll(".button");
-    buttons.forEach(button => {
-        if (e.key === button.dataset.key) {
-            button.dispatchEvent(new Event("click"));
-            return;
-        };
-    });
-});
