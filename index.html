@@ -3,131 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Calculator</title>
+    <title>Calculator</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="head">
-        <h1>Project "Calculator"</h1>
-    </div>
     <div class="main">
-        <div id="container"></div>
-        <div class="buttons">
-            <div class="digit">
-                <button id="btn1" onclick="addDigit(1)">1</button>
-                <button id="btn2" onclick="addDigit(2)">2</button>
-                <button id="btn3" onclick="addDigit(3)">3</button>
-                <button id="btn4" onclick="addDigit(4)">4</button>
-                <button id="btn5" onclick="addDigit(5)">5</button>
-                <button id="btn6" onclick="addDigit(6)">6</button>
-                <button id="btn7" onclick="addDigit(7)">7</button>
-                <button id="btn8" onclick="addDigit(8)">8</button>
-                <button id="btn9" onclick="addDigit(9)">9</button>
-                <button id="btn0" onclick="addDigit(0)">0</button>
-                <button id="dot" onclick="addDot()">.</button>
-            </div>
-            <div class="operators">
-                <button id="btnMin">-</button>
-                <button id="btnPlus" onclick="addOperators(0)">+</button>
-                <button id="btnSub" onclick="addOperators(1)">/</button>
-                <button id="btnMult" onclick="addOperators(2)">*</button>
-            </div>
-            <div class="ravno">
-                <button id="btnFin">=</button>
-                <button id="clear" onclick="clear()">clear</button>
-                <button id="delete">delete</button>
-            </div>
+        <div class="calculator">
+            <div id="container"></div>
+            <button id="clear">clear</button>
+            <button id="delete" onclick="del()">delete</button>
+            <button id="btn1" class="button" onclick="addDigit(1)">1</button>
+            <button id="btn2" class="button" onclick="addDigit(2)">2</button>
+            <button id="btn3" class="button" onclick="addDigit(3)">3</button>
+            <button id="btnPlus" onclick="addOperators(0)">+</button>
+            <button id="btn4" class="button" onclick="addDigit(4)">4</button>
+            <button id="btn5" class="button" onclick="addDigit(5)">5</button>
+            <button id="btn6" class="button" onclick="addDigit(6)">6</button>
+            <button id="btnMin">-</button>
+            <button id="btn7" class="button" onclick="addDigit(7)">7</button>
+            <button id="btn8" class="button" onclick="addDigit(8)">8</button>
+            <button id="btn9" class="button" onclick="addDigit(9)">9</button>
+            <button id="btnSub" onclick="addOperators(1)">/</button>
+            <button id="btn0" class="button" onclick="addDigit(0)">0</button>
+            <button id="dot" onclick="addDot()">.</button>
+            <button id="btnFin">=</button>
+            <button id="btnMult" onclick="addOperators(2)">*</button>
         </div>
-        <script>
-            
-            const container = document.querySelector("#container");
-            const content = document.createElement("div");
-            let string = "";
-            const btnMin = document.querySelector("#btnMin");
-            const btnFin = document.querySelector("#btnFin");
-            const btnDel = document.querySelector("#delete");
-
-            function clear(){
-                string = "";
-                content.textContent = string;
-                container.appendChild(content);
-            }
-
-            function addDigit(a){
-                if (string[0] == " ") string = "";
-                string += a;
-                content.textContent = string;
-                container.appendChild(content);
-            }
-
-            function addDot(){
-                if (string[0] == " ") string = "";
-                let str = string.split(" ");
-                if ((str.length > 2 && str[2].includes(".")) || (str.length < 2 && str[0].includes(".")))
-                {
-                    content.textContent = string;
-                    container.appendChild(content);
-                }
-                else {
-                    string += ".";
-                    content.textContent = string;
-                    container.appendChild(content);
-                }
-            }
-            function addOperators(a){
-                if (string[0] == " ") string = string.trimStart();
-                if (string.length != 0 && string[string.length - 1] != "-" && string.includes(" ") == false){
-                    a == 0 ? string += " + ": a == 1 ? string += " / ": string += " * "
-                    content.textContent = string;
-                    container.appendChild(content);
-                }
-            }
-            
-            btnMin.addEventListener("click", () => {
-                if (string[0] == " ") string = string.trimStart();
-                if(string.length == 0 || (string.includes(" ") && string[string.length - 1] == " ")){
-                    string += "-";
-                    content.textContent = string;
-                    container.appendChild(content);
-                }
-                else if((string.includes(" ") && string[string.length - 1] !== " ") || string[string.length - 1] == "-" || (string.length == 1 && string.includes(".")) || (string.includes(" ") && string[string.length - 1] == ".")){
-                    content.textContent = string;
-                    container.appendChild(content);
-                }
-                else {
-                    string += " - ";
-                    content.textContent = string;
-                    container.appendChild(content);
-                }
-            });
-            btnFin.addEventListener("click", () => {
-                let a = 0;
-                if (string.includes(" ") && (string[string.length - 1] != " " || string[string.length - 1] != "-")){
-                    str = string.split(" ");
-                    switch (str[1]){
-                        case "+":
-                            a = +str[0] + +str[2];
-                            string += ` = ${a}`;
-                            break;
-                        case "-":
-                            a = +str[0] - +str[2];
-                            string += ` = ${a}`;
-                            break;
-                        case "/":
-                            a = +str[0] / +str[2];
-                            string += ` = ${a}`;
-                            break;
-                        case "*":
-                            a = +str[0] * +str[2];
-                            string += ` = ${a}`;
-                            break;
-                    }
-                }
-                content.textContent = string;
-                container.appendChild(content);
-                string = ` ${a}`;
-            });
-        </script>
+        
+        
         
         
     </div>
